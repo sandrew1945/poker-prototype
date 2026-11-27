@@ -1,0 +1,702 @@
+/*
+ * Styles of the prototype. The colors are the gray tones of the page drafts
+ * (Poker PRD Part 2, section 4.4). The most frequent controls are in the
+ * lower half of the screen.
+ */
+
+:root {
+  --color-text: #222;
+  --color-muted: #666;
+  --color-faint: #999;
+  --color-line: #ccc;
+  --color-border: #666;
+  --color-surface: #fff;
+  --color-panel: #eee;
+  --color-bar: #e4e4e4;
+  --color-page: #fafafa;
+  --color-primary: #555;
+  --color-primary-pressed: #333;
+  --color-on-primary: #fff;
+  --color-banner: #333;
+  --color-danger: #a33;
+
+  --side-space: 12px;
+  --gap: 6px;
+  --radius: 8px;
+  --key-height: clamp(38px, 6.2vh, 50px);
+  --key-gap: 4px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--color-page);
+  color: var(--color-text);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  font-size: 15px;
+  overscroll-behavior: none;
+}
+
+body {
+  overflow: hidden;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  cursor: pointer;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* The app fills the visible part of the screen (viewport.js sets the height). */
+.app {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  height: 100dvh;
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  overflow: hidden;
+}
+
+.screens {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Buttons */
+
+.button {
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.button:active,
+.button.is-pressed {
+  background: var(--color-panel);
+}
+
+.button-primary {
+  border-color: var(--color-primary-pressed);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-weight: bold;
+}
+
+.button-primary:active {
+  background: var(--color-primary-pressed);
+}
+
+.button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.button-block {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  min-height: 48px;
+}
+
+.button-tall {
+  min-height: 64px;
+  font-size: 20px;
+}
+
+.button-small {
+  min-height: 32px;
+  font-size: 13px;
+}
+
+.button-compact {
+  font-size: 13px;
+}
+
+.button-danger {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+/* Test banner: the test hand during a test task. It is not part of the App. */
+
+.test-banner {
+  padding: 4px var(--side-space);
+  background: var(--color-banner);
+  color: var(--color-on-primary);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.test-banner-title {
+  font-weight: bold;
+}
+
+.test-banner-hand {
+  font-family: ui-monospace, Menlo, monospace;
+  word-break: break-all;
+}
+
+/* Status bar (Part 1, section 7.3, state SB-1) */
+
+.status-bar {
+  display: grid;
+  grid-template-columns: 3fr 0.8fr 1.2fr;
+  min-height: 56px;
+  background: var(--color-bar);
+  border-bottom: 1px solid var(--color-faint);
+}
+
+.status-zone {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 2px;
+  border: 0;
+  border-left: 1px solid var(--color-faint);
+  background: transparent;
+}
+
+.status-zone-clock {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  border-left: 0;
+}
+
+.status-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.status-cell-level {
+  border-right: 1px solid var(--color-faint);
+}
+
+.status-main {
+  font-weight: bold;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.status-countdown {
+  margin-left: 6px;
+}
+
+.status-position {
+  font-size: 14px;
+}
+
+.status-sub {
+  font-size: 10px;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+/* Title bar */
+
+.title-bar {
+  display: grid;
+  grid-template-columns: 64px 1fr 64px;
+  align-items: center;
+  min-height: 44px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.title-back {
+  height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--color-muted);
+  font-size: 26px;
+  text-align: left;
+  padding-left: var(--side-space);
+}
+
+.title-text {
+  margin: 0;
+  font-size: 16px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.title-important {
+  height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--color-muted);
+  font-size: 13px;
+  text-align: right;
+  padding-right: var(--side-space);
+}
+
+.title-important[aria-pressed="true"] {
+  color: var(--color-text);
+  font-weight: bold;
+}
+
+/* P06: the upper half shows information; the lower half has the controls. */
+
+.live-upper {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px var(--side-space) 4px;
+}
+
+.continuation-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-panel);
+}
+
+.continuation-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.continuation-title {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.continuation-raw {
+  color: var(--color-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.next-hand-card {
+  padding: 8px 12px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background: var(--color-panel);
+}
+
+.next-hand-title {
+  font-weight: bold;
+}
+
+.next-hand-context {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.section-label {
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--color-muted);
+}
+
+.session-counts {
+  margin-top: 2px;
+}
+
+.recent-records {
+  margin: 2px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recent-record {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.recent-record-main {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recent-record-tag {
+  flex-shrink: 0;
+  color: var(--color-muted);
+}
+
+.record-result-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 var(--side-space) 6px;
+  padding: 4px 6px 4px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-panel);
+}
+
+.record-result-text {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.live-lower {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px var(--side-space) 12px;
+  border-top: 1px dashed var(--color-faint);
+}
+
+.entry-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.button-fold {
+  min-height: 72px;
+  font-size: 20px;
+}
+
+.one-tap-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.button-one-tap {
+  min-height: 60px;
+  font-size: 16px;
+}
+
+.button-record {
+  min-height: 76px;
+  font-size: 20px;
+}
+
+/* P07 */
+
+.context-bar {
+  padding: 6px var(--side-space);
+  background: var(--color-panel);
+  color: var(--color-muted);
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.input-upper {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 8px var(--side-space) 4px;
+}
+
+.shorthand-input {
+  flex: 1;
+  min-height: 64px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  resize: none;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: bold;
+  line-height: 1.4;
+  color: var(--color-text);
+  caret-color: var(--color-text);
+}
+
+.shorthand-input::placeholder {
+  font-weight: normal;
+  font-size: 13px;
+  color: var(--color-faint);
+}
+
+.input-hint {
+  margin: 4px 0 0;
+  font-size: 11px;
+  color: var(--color-muted);
+}
+
+.conversion-bar {
+  margin: 4px var(--side-space) 6px;
+  padding: 7px 12px;
+  border: 1px solid var(--color-line);
+  border-radius: 6px;
+  background: var(--color-panel);
+  font-size: 12px;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.poker-keyboard {
+  padding: 6px 4px 6px;
+  background: var(--color-bar);
+}
+
+.poker-keys {
+  display: flex;
+  flex-direction: column;
+  gap: var(--key-gap);
+  margin-bottom: var(--key-gap);
+}
+
+.keyboard-row {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: var(--key-gap);
+}
+
+.keyboard-row-k6 {
+  grid-template-columns: 70fr 110fr 181fr;
+}
+
+.key {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 0;
+  height: var(--key-height);
+  padding: 0;
+  border: 1px solid var(--color-faint);
+  border-radius: 5px;
+  background: var(--color-surface);
+  line-height: 1.1;
+}
+
+.key:active,
+.key.is-pressed {
+  background: var(--color-line);
+}
+
+.key-label {
+  font-size: 17px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.key-label-small {
+  font-size: 11px;
+}
+
+.key-hint {
+  font-size: 9px;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.key-hero {
+  border-color: var(--color-primary-pressed);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.key-hero .key-hint {
+  color: var(--color-on-primary);
+}
+
+.key-abc,
+.key-space {
+  border-color: var(--color-border);
+  border-radius: var(--radius);
+  font-size: 15px;
+}
+
+.key-abc[aria-pressed="true"] {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.key-save {
+  border-color: var(--color-primary-pressed);
+  border-radius: var(--radius);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.key-save:disabled {
+  opacity: 0.4;
+}
+
+/* Pages of the prototype that are not pages of the App */
+
+.screen-page {
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.page-title {
+  margin: 4px 0 8px;
+  font-size: 20px;
+}
+
+.page-text {
+  margin: 0 0 12px;
+}
+
+.page-note {
+  margin: 6px 0;
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.page-spacer {
+  flex: 1;
+}
+
+.field-label {
+  display: block;
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.text-field {
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 16px;
+}
+
+.test-hand {
+  margin-top: 8px;
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-panel);
+}
+
+.test-hand-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--color-muted);
+}
+
+.test-hand-text {
+  margin: 4px 0 10px;
+  line-height: 1.5;
+}
+
+.test-hand-reference {
+  margin: 4px 0;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 17px;
+  font-weight: bold;
+  word-break: break-all;
+}
+
+/* Results page */
+
+.results-sessions {
+  margin-top: 8px;
+}
+
+.result-session {
+  margin-top: 14px;
+  padding-top: 8px;
+  border-top: 2px solid var(--color-border);
+}
+
+.result-session-title {
+  margin: 0;
+  font-size: 15px;
+}
+
+.result-row {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+}
+
+.result-row-head {
+  font-weight: bold;
+}
+
+.result-row-line {
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--color-muted);
+  word-break: break-all;
+}
+
+.results-text {
+  width: 100%;
+  min-height: 140px;
+  margin-top: 6px;
+  padding: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 12px;
+}
+
+/* Toast */
+
+.toast {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translateX(-50%);
+  max-width: 80%;
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--color-on-primary);
+  font-size: 14px;
+  text-align: center;
+  pointer-events: none;
+}

@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="format-detection" content="telephone=no">
+  <title>Poker APP 原型：现场主屏与手牌录入</title>
+  <!-- An empty icon: the browser does not ask the server for favicon.ico. -->
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <div id="app" class="app">
+    <div id="test-banner" class="test-banner" hidden>
+      <div id="test-banner-title" class="test-banner-title"></div>
+      <div id="test-banner-hand" class="test-banner-hand"></div>
+    </div>
+
+    <header id="status-bar" class="status-bar" hidden>
+      <button type="button" class="status-zone status-zone-clock" data-control="status-clock">
+        <span class="status-cell status-cell-level">
+          <span class="status-main"><span id="status-level"></span><span id="status-countdown" class="status-countdown"></span></span>
+          <span class="status-sub">Level · 倒计时</span>
+        </span>
+        <span class="status-cell">
+          <span id="status-blinds" class="status-main"></span>
+          <span class="status-sub">SB/BB/Ante</span>
+        </span>
+      </button>
+      <button type="button" class="status-zone" data-control="status-position">
+        <span id="status-position" class="status-main status-position"></span>
+        <span class="status-sub">位置</span>
+      </button>
+      <button type="button" class="status-zone" data-control="status-chips">
+        <span id="status-chips" class="status-main"></span>
+        <span id="status-depth" class="status-sub"></span>
+      </button>
+    </header>
+
+    <main class="screens">
+      <!-- Home page of the prototype. It is not a page of the App. -->
+      <section id="screen-home" class="screen screen-page" hidden>
+        <h1 class="page-title">Poker APP 原型</h1>
+        <p class="page-text">现场主屏（P06）与手牌录入（P07）的交互测试。</p>
+        <label class="field-label" for="session-label">测试标签（可选）</label>
+        <input id="session-label" class="text-field" type="text" maxlength="40" autocomplete="off"
+          placeholder="例如：玩家 A 练习">
+        <p class="page-note">只写一个标签。不要写姓名或其他个人信息。</p>
+        <button type="button" class="button button-primary button-block" data-home="start-test">开始测试</button>
+        <button type="button" class="button button-block" data-home="start-free">自由试用</button>
+        <button type="button" class="button button-block" data-home="open-results">查看结果</button>
+        <p class="page-note">测试结果只保存在这台手机的浏览器中，不发送到任何服务器。</p>
+      </section>
+
+      <!-- Card of one test task. It shows the test hand before the task. -->
+      <section id="screen-task" class="screen screen-page" hidden>
+        <p id="task-progress" class="page-note"></p>
+        <h1 id="task-title" class="page-title"></h1>
+        <div class="test-hand">
+          <div class="test-hand-label">测试手牌</div>
+          <p id="task-situation" class="test-hand-text"></p>
+          <div id="task-reference-block" hidden>
+            <div class="test-hand-label">参考输入</div>
+            <p id="task-reference" class="test-hand-reference"></p>
+            <p class="page-note">用扑克键盘输入。BB、BTN 是位置键，bb 是单位键。</p>
+          </div>
+        </div>
+        <p id="task-timing" class="page-note"></p>
+        <p id="task-previous" class="page-note" hidden></p>
+        <div class="page-spacer"></div>
+        <button type="button" class="button button-primary button-block button-tall" data-task="begin">开始</button>
+        <button type="button" class="button button-block" data-task="end">结束测试</button>
+      </section>
+
+      <!-- P06 现场主屏 -->
+      <section id="screen-live" class="screen screen-live" hidden>
+        <div class="title-bar">
+          <button type="button" class="title-back" data-control="live-back" aria-label="返回">‹</button>
+          <h1 id="live-title" class="title-text"></h1>
+          <span class="title-side"></span>
+        </div>
+        <div class="live-upper">
+          <div id="continuation-bar" class="continuation-bar" hidden>
+            <div class="continuation-text">
+              <div id="continuation-title" class="continuation-title"></div>
+              <div id="continuation-raw" class="continuation-raw"></div>
+            </div>
+            <button type="button" class="button button-primary button-small" data-control="continue">继续</button>
+          </div>
+          <div class="next-hand-card">
+            <div id="next-hand-title" class="next-hand-title"></div>
+            <div id="next-hand-context" class="next-hand-context"></div>
+          </div>
+          <div class="section-label">本场记录</div>
+          <div id="session-counts" class="session-counts"></div>
+          <div class="section-label">最近记录</div>
+          <ul id="recent-records" class="recent-records"></ul>
+        </div>
+        <div id="record-result-bar" class="record-result-bar" hidden>
+          <span id="record-result-text" class="record-result-text"></span>
+          <button type="button" id="undo-button" class="button button-small" data-control="undo">撤销</button>
+        </div>
+        <div class="live-lower">
+          <div class="entry-row">
+            <button type="button" class="button" data-control="chips">筹码</button>
+            <button type="button" id="hands-button" class="button button-compact" data-control="hands"></button>
+            <button type="button" class="button" data-control="review">阶段回顾</button>
+          </div>
+          <button type="button" class="button button-fold" data-control="fold">弃牌</button>
+          <div class="one-tap-row">
+            <button type="button" class="button button-one-tap" data-control="skip">跳过</button>
+            <button type="button" class="button button-one-tap" data-control="played">参与底池</button>
+          </div>
+          <button type="button" class="button button-primary button-record" data-control="record">记一手</button>
+        </div>
+      </section>
+
+      <!-- P07 手牌录入 -->
+      <section id="screen-input" class="screen screen-input" hidden>
+        <div class="title-bar">
+          <button type="button" class="title-back" data-control="input-back" aria-label="返回">‹</button>
+          <h1 id="input-title" class="title-text"></h1>
+          <button type="button" id="important-button" class="title-side title-important" data-control="important"
+            aria-pressed="false"></button>
+        </div>
+        <div id="context-bar" class="context-bar"></div>
+        <div class="input-upper">
+          <textarea id="shorthand-input" class="shorthand-input" inputmode="none" autocomplete="off" autocorrect="off"
+            autocapitalize="off" spellcheck="false" aria-label="简写输入框"
+            placeholder="写下记得的部分&#10;例：AKo r2.5bb BB c&#10;例：AQs r BB c / Q72 BB x b1200 BB f"></textarea>
+          <p class="input-hint">可以只写一部分。保存不等待网络和 AI。没有写位置的行动是 Hero 的行动。</p>
+        </div>
+        <div id="conversion-bar" class="conversion-bar"></div>
+        <div id="poker-keyboard" class="poker-keyboard">
+          <div id="poker-keys" class="poker-keys"></div>
+          <div class="keyboard-row keyboard-row-k6">
+            <button type="button" id="abc-button" class="key key-abc" data-control="abc" aria-pressed="false">ABC</button>
+            <button type="button" class="key key-space" data-key="space">空格</button>
+            <button type="button" id="save-button" class="key key-save" data-control="save">保存</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results page of the prototype. It is not a page of the App. -->
+      <section id="screen-results" class="screen screen-page" hidden>
+        <h1 class="page-title">测试结果</h1>
+        <div class="results-actions">
+          <button type="button" class="button button-primary button-block" data-results="copy">复制全部结果</button>
+          <p id="copy-status" class="page-note" role="status" aria-live="polite"></p>
+        </div>
+        <div id="results-sessions" class="results-sessions"></div>
+        <label class="field-label" for="results-text">结果文本（复制失败时，手动选择这段文本）</label>
+        <textarea id="results-text" class="results-text" readonly></textarea>
+        <button type="button" class="button button-block" data-results="home">返回首页</button>
+        <button type="button" class="button button-block button-danger" data-results="delete">删除全部结果</button>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  </div>
+</body>
+</html>
